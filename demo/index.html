@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard vận hành — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f3f6f4;
+      --bg-deep: #e7eee9;
+      --ink: #1a2420;
+      --muted: #5c6b64;
+      --line: #c9d5ce;
+      --tag: #f5d76e;
+      --tag-text: #3d3510;
+      --queen: #c9b8e8;
+      --star: #f5b8c8;
+      --kitchen: #f5d76e;
+      --floor: #b8e0b0;
+      --crew: #a8d4f0;
+      --urgent: #e85d4c;
+      --panel: #fffdf5;
+      --panel-border: #e0d6a8;
+      --white: #ffffff;
+      --shadow: 0 10px 28px rgba(26, 36, 32, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, #dff0e4 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 100% 0%, #fde8ee 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+
+    .wrap {
+      width: min(1100px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 48px;
+    }
+
+    header.app-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px 20px;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      font-family: Outfit, "Be Vietnam Pro", sans-serif;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span {
+      display: block;
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      margin-top: 2px;
+    }
+
+    .sync-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .sync-meta button {
+      margin-top: 6px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .sync-meta button:hover { background: #f0f5f2; }
+
+    /* —— Metrics —— */
+    section.metrics {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 213, 206, 0.8);
+      border-radius: var(--radius);
+      padding: 16px 16px 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+
+    .date-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--tag);
+      color: var(--tag-text);
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #e6c84a;
+    }
+
+    .date-row input[type="date"] {
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .metric-block { margin-bottom: 10px; }
+
+    .ship-label {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .ship-label.queen { background: var(--queen); }
+    .ship-label.star { background: var(--star); }
+
+    .metric-rows { display: grid; gap: 8px; }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .metric-row { grid-template-columns: 1fr; }
+    }
+
+    .metric-tag {
+      background: var(--tag);
+      color: var(--tag-text);
+      border: 1px solid #e6c84a;
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .metric-tag .label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .metric-tag .value {
+      font-family: Outfit, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .metric-tag .shift {
+      font-size: 0.7rem;
+      font-weight: 700;
+      opacity: 0.7;
+      margin-bottom: 2px;
+    }
+
+    /* —— Forums —— */
+    section.forums h2 {
+      font-family: Outfit, sans-serif;
+      font-size: 1.15rem;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .ships {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .ships { grid-template-columns: 1fr; }
+    }
+
+    .ship-col {
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .ship-col > .ship-label { margin-bottom: 12px; }
+
+    .channel { margin-bottom: 14px; }
+
+    .channel:last-child { margin-bottom: 0; }
+
+    .channel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .channel-tag {
+      font-weight: 600;
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    .channel-tag.kitchen { background: var(--kitchen); border-color: #e6c84a; }
+    .channel-tag.floor { background: var(--floor); border-color: #8fc986; }
+    .channel-tag.crew { background: var(--crew); border-color: #7eb8dc; }
+
+    .channel-head button {
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px dashed var(--muted);
+      background: transparent;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .channel-head button:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .thread-box {
+      background: var(--panel);
+      border: 1.5px dashed var(--panel-border);
+      border-radius: 12px;
+      min-height: 88px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .thread-item {
+      background: var(--white);
+      border: 1px solid #eee6c4;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .thread-item:hover {
+      border-color: #d4c478;
+      transform: translateY(-1px);
+    }
+
+    .thread-item.urgent {
+      border-left: 3px solid var(--urgent);
+    }
+
+    .thread-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .badge-urgent {
+      flex-shrink: 0;
+      background: var(--urgent);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .thread-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .empty-hint {
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    /* —— Modal —— */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 28, 24, 0.45);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 40;
+      padding: 12px;
+    }
+
+    .overlay.open { display: flex; }
+
+    @media (min-width: 700px) {
+      .overlay { align-items: center; }
+    }
+
+    .modal {
+      background: var(--white);
+      width: min(520px, 100%);
+      max-height: min(88vh, 720px);
+      border-radius: 16px 16px 12px 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: rise 0.22s ease-out;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .modal-head h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .modal-head .sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .modal-head .close {
+      border: none;
+      background: #eef2ef;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 12px 16px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bubble {
+      background: #f4f7f5;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+    }
+
+    .bubble.op {
+      background: #fff8e0;
+      border: 1px solid #efe3a8;
+    }
+
+    .bubble .who {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .modal-foot {
+      padding: 12px 16px 14px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 8px;
+    }
+
+    .modal-foot textarea {
+      font: inherit;
+      font-size: 0.88rem;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      resize: vertical;
+      min-height: 64px;
+    }
+
+    .modal-foot .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn {
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: #1f3d32;
+      color: #fff;
+      border-color: #1f3d32;
+    }
+
+    .btn.primary:hover { background: #2a5244; }
+
+    /* Compose modal fields */
+    .compose-fields { display: grid; gap: 8px; padding: 12px 16px; }
+    .compose-fields label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .compose-fields input,
+    .compose-fields select,
+    .compose-fields textarea {
+      font: inherit;
+      font-size: 0.88rem;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 100%;
+    }
+    .compose-fields textarea { min-height: 90px; resize: vertical; }
+    .check-urgent {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .demo-banner {
+      background: #1f3d32;
+      color: #e8f2ed;
+      font-size: 0.78rem;
+      text-align: center;
+      padding: 8px 12px;
+    }
+
+    .demo-banner strong { color: #f5d76e; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    <strong>DEMO HTML</strong> — dữ liệu mẫu, chưa nối Google Sheet / đăng nhập thật
+  </div>
+
+  <div class="wrap">
+    <header class="app-head">
+      <div class="brand">
+        Queen · Star
+        <span>Tổng quan vận hành & báo cáo nội bộ</span>
+      </div>
+      <div class="sync-meta">
+        <div>Sheet sync: <span id="syncTime">—</span></div>
+        <button type="button" id="btnRefresh">Làm mới số liệu</button>
+      </div>
+    </header>
+
+    <section class="metrics" aria-label="Số liệu khách">
+      <div class="date-row">
+        <span class="pill">Ngày</span>
+        <input type="date" id="datePick" />
+      </div>
+
+      <div class="metric-block">
+        <span class="ship-label queen">Queen</span>
+        <div class="metric-rows" id="metricsQueen"></div>
+      </div>
+
+      <div class="metric-block">
+        <span class="ship-label star">Star</span>
+        <div class="metric-rows" id="metricsStar"></div>
+      </div>
+    </section>
+
+    <section class="forums" aria-label="Diễn đàn báo cáo">
+      <h2>Báo cáo theo bộ phận</h2>
+      <div class="ships">
+        <div class="ship-col" data-ship="Queen">
+          <span class="ship-label queen">Queen</span>
+          <div class="channel" data-dept="kitchen">
+            <div class="channel-head">
+              <span class="channel-tag kitchen">Báo cáo bếp</span>
+              <button type="button" data-compose="Queen|kitchen">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Queen-kitchen"></div>
+          </div>
+          <div class="channel" data-dept="floor">
+            <div class="channel-head">
+              <span class="channel-tag floor">Báo cáo bộ phận bàn</span>
+              <button type="button" data-compose="Queen|floor">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Queen-floor"></div>
+          </div>
+          <div class="channel" data-dept="crew">
+            <div class="channel-head">
+              <span class="channel-tag crew">Báo cáo thuỷ thủ</span>
+              <button type="button" data-compose="Queen|crew">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Queen-crew"></div>
+          </div>
+        </div>
+
+        <div class="ship-col" data-ship="Star">
+          <span class="ship-label star">Star</span>
+          <div class="channel" data-dept="kitchen">
+            <div class="channel-head">
+              <span class="channel-tag kitchen">Báo cáo bếp</span>
+              <button type="button" data-compose="Star|kitchen">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Star-kitchen"></div>
+          </div>
+          <div class="channel" data-dept="floor">
+            <div class="channel-head">
+              <span class="channel-tag floor">Báo cáo bộ phận bàn</span>
+              <button type="button" data-compose="Star|floor">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Star-floor"></div>
+          </div>
+          <div class="channel" data-dept="crew">
+            <div class="channel-head">
+              <span class="channel-tag crew">Báo cáo thuỷ thủ</span>
+              <button type="button" data-compose="Star|crew">+ Gửi báo cáo</button>
+            </div>
+            <div class="thread-box" id="ch-Star-crew"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Thread detail -->
+  <div class="overlay" id="threadOverlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h3 id="threadTitle">—</h3>
+          <div class="sub" id="threadSub"></div>
+        </div>
+        <button type="button" class="close" data-close aria-label="Đóng">×</button>
+      </div>
+      <div class="modal-body" id="threadReplies"></div>
+      <div class="modal-foot">
+        <textarea id="replyText" placeholder="Viết phản hồi..."></textarea>
+        <div class="actions">
+          <button type="button" class="btn" data-close>Đóng</button>
+          <button type="button" class="btn primary" id="btnReply">Gửi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compose -->
+  <div class="overlay" id="composeOverlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h3>Gửi báo cáo</h3>
+          <div class="sub" id="composeSub"></div>
+        </div>
+        <button type="button" class="close" data-close-compose aria-label="Đóng">×</button>
+      </div>
+      <div class="compose-fields">
+        <div>
+          <label for="composeTitle">Tiêu đề</label>
+          <input id="composeTitle" type="text" placeholder="VD: Thiếu nguyên liệu gà" />
+        </div>
+        <div>
+          <label for="composeBody">Nội dung</label>
+          <textarea id="composeBody" placeholder="Mô tả tình trạng / cần hỗ trợ..."></textarea>
+        </div>
+        <label class="check-urgent">
+          <input type="checkbox" id="composeUrgent" />
+          Đánh dấu <strong style="color:var(--urgent)">Gấp</strong>
+        </label>
+      </div>
+      <div class="modal-foot">
+        <div class="actions">
+          <button type="button" class="btn" data-close-compose>Hủy</button>
+          <button type="button" class="btn primary" id="btnCompose">Đăng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEPT_LABEL = {
+      kitchen: "Báo cáo bếp",
+      floor: "Báo cáo bộ phận bàn",
+      crew: "Báo cáo thuỷ thủ",
+    };
+
+    const occupancy = {
+      Queen: {
+        T1: { guests: 128, capacity: 150 },
+        T2: { guests: 96, capacity: 150 },
+      },
+      Star: {
+        T1: { guests: 142, capacity: 160 },
+        T2: { guests: 110, capacity: 160 },
+      },
+    };
+
+    let posts = [
+      {
+        id: "p1",
+        ship: "Queen",
+        dept: "kitchen",
+        title: "Hết sốt tiêu — cần bổ sung trước 17h",
+        body: "Tồn kho sốt tiêu còn khoảng 2 chai. Dự kiến T2 sẽ thiếu nếu không nhập thêm.",
+        urgent: true,
+        author: "Bếp · Lan",
+        time: "14:05",
+        replies: [
+          { author: "Kho · Minh", time: "14:12", text: "Đã đặt thêm, ship sẽ giao ~16:30." },
+          { author: "Bếp · Lan", time: "14:15", text: "Ok, cảm ơn — giữ được đến lúc đó." },
+        ],
+      },
+      {
+        id: "p2",
+        ship: "Queen",
+        dept: "floor",
+        title: "Bàn 12 yêu cầu đổi vị trí (gần cửa sổ)",
+        body: "Khách đoàn 6 người, đang ngồi bàn 12, muốn chuyển gần cửa sổ nếu còn chỗ.",
+        urgent: false,
+        author: "Bàn · Hùng",
+        time: "13:40",
+        replies: [
+          { author: "Bàn · Mai", time: "13:44", text: "Bàn 3 vừa trống — mình chuyển giúp." },
+        ],
+      },
+      {
+        id: "p3",
+        ship: "Queen",
+        dept: "crew",
+        title: "Check dây buộc mạn phải OK",
+        body: "Đã kiểm tra dây buộc ca chiều, tình trạng bình thường.",
+        urgent: false,
+        author: "TT · Long",
+        time: "12:20",
+        replies: [],
+      },
+      {
+        id: "p4",
+        ship: "Star",
+        dept: "kitchen",
+        title: "Lò nướng 2 nhiệt không ổn định",
+        body: "Nhiệt độ dao động ±30°C. Đang dùng lò 1 bù. Cần kỹ thuật xem gấp trước T2.",
+        urgent: true,
+        author: "Bếp · Tuấn",
+        time: "13:55",
+        replies: [
+          { author: "KT · Phong", time: "14:02", text: "Đang xuống tàu Star, ETA 10 phút." },
+        ],
+      },
+      {
+        id: "p5",
+        ship: "Star",
+        dept: "floor",
+        title: "Đủ set menu T1 — không phát sinh",
+        body: "T1 chạy ổn. Còn 8 set dự phòng.",
+        urgent: false,
+        author: "Bàn · Nga",
+        time: "12:50",
+        replies: [],
+      },
+      {
+        id: "p6",
+        ship: "Star",
+        dept: "crew",
+        title: "GẤP: Rò rỉ nhẹ khu vực cầu thang 2",
+        body: "Phát hiện ẩm sàn cầu thang 2. Đã chắn tạm, cần bảo trì kiểm tra ống.",
+        urgent: true,
+        author: "TT · Khoa",
+        time: "14:18",
+        replies: [],
+      },
+    ];
+
+    let activePostId = null;
+    let composeTarget = null;
+
+    function fmtPct(g, c) {
+      return c ? Math.round((g / c) * 100) + "%" : "—";
+    }
+
+    function renderMetrics() {
+      ["Queen", "Star"].forEach((ship) => {
+        const el = document.getElementById("metrics" + ship);
+        el.innerHTML = "";
+        ["T1", "T2"].forEach((shift) => {
+          const { guests, capacity } = occupancy[ship][shift];
+          const empty = Math.max(0, capacity - guests);
+          const row = document.createElement("div");
+          row.className = "metric-row";
+          row.innerHTML = `
+            <div class="metric-tag">
+              <div class="shift">${shift}</div>
+              <div class="label">Số khách ${shift}</div>
+              <div class="value">${guests}</div>
+            </div>
+            <div class="metric-tag">
+              <div class="shift">${shift}</div>
+              <div class="label">Số chỗ trống</div>
+              <div class="value">${empty}</div>
+            </div>
+            <div class="metric-tag">
+              <div class="shift">${shift}</div>
+              <div class="label">Tỉ lệ lấp đầy</div>
+              <div class="value">${fmtPct(guests, capacity)}</div>
+            </div>`;
+          el.appendChild(row);
+        });
+      });
+    }
+
+    function stampSync() {
+      const now = new Date();
+      document.getElementById("syncTime").textContent = now.toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    }
+
+    function renderChannels() {
+      ["Queen", "Star"].forEach((ship) => {
+        ["kitchen", "floor", "crew"].forEach((dept) => {
+          const box = document.getElementById(`ch-${ship}-${dept}`);
+          const list = posts
+            .filter((p) => p.ship === ship && p.dept === dept)
+            .sort((a, b) => (a.urgent === b.urgent ? 0 : a.urgent ? -1 : 1));
+
+          if (!list.length) {
+            box.innerHTML = `<div class="empty-hint">Chưa có báo cáo — bấm “+ Gửi báo cáo”</div>`;
+            return;
+          }
+
+          box.innerHTML = list
+            .map(
+              (p) => `
+            <button type="button" class="thread-item ${p.urgent ? "urgent" : ""}" data-open="${p.id}">
+              <div class="thread-title">
+                ${p.urgent ? '<span class="badge-urgent">Gấp</span>' : ""}
+                <span>${escapeHtml(p.title)}</span>
+              </div>
+              <div class="thread-meta">${escapeHtml(p.author)} · ${p.time} · ${p.replies.length} phản hồi</div>
+            </button>`
+            )
+            .join("");
+        });
+      });
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function openThread(id) {
+      const p = posts.find((x) => x.id === id);
+      if (!p) return;
+      activePostId = id;
+      document.getElementById("threadTitle").textContent = p.title;
+      document.getElementById("threadSub").textContent =
+        `${p.ship} · ${DEPT_LABEL[p.dept]} · ${p.author} · ${p.time}` +
+        (p.urgent ? " · GẤP" : "");
+
+      const body = document.getElementById("threadReplies");
+      body.innerHTML = `
+        <div class="bubble op">
+          <div class="who">${escapeHtml(p.author)} · ${p.time}</div>
+          <div>${escapeHtml(p.body)}</div>
+        </div>
+        ${p.replies
+          .map(
+            (r) => `
+          <div class="bubble">
+            <div class="who">${escapeHtml(r.author)} · ${r.time}</div>
+            <div>${escapeHtml(r.text)}</div>
+          </div>`
+          )
+          .join("")}`;
+
+      document.getElementById("replyText").value = "";
+      document.getElementById("threadOverlay").classList.add("open");
+    }
+
+    function openCompose(ship, dept) {
+      composeTarget = { ship, dept };
+      document.getElementById("composeSub").textContent = `${ship} · ${DEPT_LABEL[dept]}`;
+      document.getElementById("composeTitle").value = "";
+      document.getElementById("composeBody").value = "";
+      document.getElementById("composeUrgent").checked = false;
+      document.getElementById("composeOverlay").classList.add("open");
+    }
+
+    function closeOverlays() {
+      document.getElementById("threadOverlay").classList.remove("open");
+      document.getElementById("composeOverlay").classList.remove("open");
+      activePostId = null;
+      composeTarget = null;
+    }
+
+    // Events
+    document.getElementById("btnRefresh").addEventListener("click", () => {
+      // Demo: dao động nhẹ số liệu
+      Object.keys(occupancy).forEach((ship) => {
+        ["T1", "T2"].forEach((shift) => {
+          const o = occupancy[ship][shift];
+          const delta = Math.floor(Math.random() * 7) - 3;
+          o.guests = Math.max(0, Math.min(o.capacity, o.guests + delta));
+        });
+      });
+      renderMetrics();
+      stampSync();
+    });
+
+    document.addEventListener("click", (e) => {
+      const open = e.target.closest("[data-open]");
+      if (open) openThread(open.getAttribute("data-open"));
+
+      const compose = e.target.closest("[data-compose]");
+      if (compose) {
+        const [ship, dept] = compose.getAttribute("data-compose").split("|");
+        openCompose(ship, dept);
+      }
+
+      if (e.target.matches("[data-close]") || e.target.id === "threadOverlay") {
+        if (e.target.id === "threadOverlay" || e.target.matches("[data-close]")) {
+          document.getElementById("threadOverlay").classList.remove("open");
+          activePostId = null;
+        }
+      }
+      if (e.target.matches("[data-close-compose]") || e.target.id === "composeOverlay") {
+        if (e.target.id === "composeOverlay" || e.target.matches("[data-close-compose]")) {
+          document.getElementById("composeOverlay").classList.remove("open");
+          composeTarget = null;
+        }
+      }
+    });
+
+    document.getElementById("btnReply").addEventListener("click", () => {
+      const text = document.getElementById("replyText").value.trim();
+      if (!text || !activePostId) return;
+      const p = posts.find((x) => x.id === activePostId);
+      const now = new Date();
+      p.replies.push({
+        author: "Bạn (demo)",
+        time: now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }),
+        text,
+      });
+      openThread(activePostId);
+      renderChannels();
+    });
+
+    document.getElementById("btnCompose").addEventListener("click", () => {
+      if (!composeTarget) return;
+      const title = document.getElementById("composeTitle").value.trim();
+      const body = document.getElementById("composeBody").value.trim();
+      if (!title || !body) {
+        alert("Nhập tiêu đề và nội dung.");
+        return;
+      }
+      const now = new Date();
+      posts.unshift({
+        id: "p" + Date.now(),
+        ship: composeTarget.ship,
+        dept: composeTarget.dept,
+        title,
+        body,
+        urgent: document.getElementById("composeUrgent").checked,
+        author: "Bạn (demo)",
+        time: now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }),
+        replies: [],
+      });
+      closeOverlays();
+      renderChannels();
+    });
+
+    // Init
+    const today = new Date();
+    document.getElementById("datePick").value = today.toISOString().slice(0, 10);
+    renderMetrics();
+    renderChannels();
+    stampSync();
+  </script>
+</body>
+</html>
