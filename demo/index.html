@@ -501,10 +501,10 @@
       max-width: none;
       height: 100vh;
       margin: 0;
-      padding: 18px 28px 20px;
+      padding: 12px 22px 14px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
       overflow: hidden;
     }
     body.tv header.app-head {
@@ -513,81 +513,137 @@
       align-items: center;
     }
     body.tv .brand {
-      font-size: 2.1rem;
+      font-size: 1.85rem;
       font-weight: 800;
     }
-    body.tv .brand span { font-size: 0.95rem; margin-top: 4px; }
-    body.tv .live-clock { font-size: 2.4rem; }
-    body.tv .live-clock small { font-size: 0.9rem; }
-    body.tv .sync-meta { font-size: 1rem; }
+    body.tv .brand span { font-size: 0.88rem; margin-top: 2px; }
+    body.tv .live-clock { font-size: 2rem; }
+    body.tv .live-clock small { font-size: 0.82rem; }
+    body.tv .sync-meta { font-size: 0.9rem; }
     body.tv .sync-meta button,
     body.tv .tv-toggle {
-      font-size: 0.9rem;
-      padding: 8px 14px;
+      font-size: 0.85rem;
+      padding: 7px 12px;
     }
 
+    /* Metrics: compact strip so forums keep height */
     body.tv section.metrics {
       flex-shrink: 0;
       margin-bottom: 0;
-      padding: 14px 16px;
+      padding: 8px 12px;
     }
-    body.tv .date-row { margin-bottom: 10px; }
-    body.tv .pill { font-size: 1rem; padding: 8px 16px; }
-    body.tv .date-row input[type="date"] { font-size: 1rem; padding: 8px 12px; }
-    body.tv .ship-label { font-size: 1.05rem; padding: 5px 14px; margin-bottom: 8px; }
-    body.tv .metrics-grid { gap: 16px; }
-    body.tv .metric-rows { gap: 8px; }
+    body.tv .date-row {
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+    body.tv .pill { font-size: 0.88rem; padding: 5px 12px; }
+    body.tv .date-row input[type="date"] { font-size: 0.88rem; padding: 5px 8px; }
+    body.tv .ship-label {
+      font-size: 0.92rem;
+      padding: 3px 10px;
+      margin-bottom: 4px;
+    }
+    body.tv .metrics-grid { gap: 10px; }
+    body.tv .metric-rows {
+      gap: 6px;
+      grid-template-columns: 1fr 1fr;
+      display: grid;
+    }
+    body.tv .metric-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
     body.tv .metric-tag {
-      min-height: 70px;
-      padding: 10px 14px;
-      border-radius: 12px;
+      min-height: 0;
+      padding: 6px 8px;
+      border-radius: 10px;
     }
-    body.tv .metric-tag .shift { font-size: 0.85rem; }
-    body.tv .metric-tag .label { font-size: 0.92rem; }
-    body.tv .metric-tag .value { font-size: 1.85rem; font-weight: 800; }
+    body.tv .metric-tag .shift { display: none; }
+    body.tv .metric-tag .label { font-size: 0.72rem; }
+    body.tv .metric-tag .value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-top: 0;
+    }
 
     body.tv section.forums {
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
-      gap: 10px;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
     }
     body.tv section.forums > h2 {
-      font-size: 1.35rem;
+      font-size: 1.15rem;
       flex-shrink: 0;
+      margin: 0;
     }
     body.tv .ships {
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
-      gap: 16px;
+      gap: 12px;
       grid-template-columns: 1fr 1fr;
+      align-items: stretch;
     }
     body.tv .ship-col {
-      padding: 12px 14px;
-      gap: 10px;
+      padding: 10px 12px;
+      gap: 0;
       overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr 1fr 1fr;
+      min-height: 0;
+      height: 100%;
     }
     body.tv .ship-col > .ship-label {
       flex-shrink: 0;
-      font-size: 1.1rem;
-      margin-bottom: 0;
+      font-size: 1rem;
+      margin-bottom: 6px;
+      width: fit-content;
     }
-    body.tv .channel { flex: 1; min-height: 0; }
-    body.tv .channel-tag { font-size: 1rem; padding: 7px 14px; }
-    body.tv .channel-head button { font-size: 0.85rem; padding: 6px 12px; }
-    body.tv .thread-box {
-      gap: 7px;
-      padding: 8px;
+    body.tv .channel {
+      min-height: 0;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 6px;
+    }
+    body.tv .channel-head { margin-bottom: 4px; flex-shrink: 0; }
+    body.tv .channel-tag { font-size: 0.92rem; padding: 5px 12px; }
+    body.tv .channel-head button { font-size: 0.8rem; padding: 4px 10px; }
+    body.tv .thread-box {
+      gap: 6px;
+      padding: 6px;
+      overflow: hidden;
+      flex: 1 1 auto;
+      min-height: 0;
     }
     body.tv .thread-item {
-      padding: 10px 12px;
-      border-radius: 12px;
-      flex-shrink: 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      flex: 1 1 0;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    body.tv .thread-title { font-size: 1.05rem; line-height: 1.3; }
-    body.tv .badge-urgent { font-size: 0.75rem; padding: 3px 8px; }
-    body.tv .thread-meta { font-size: 0.88rem; margin-top: 4px; }
-    body.tv .empty-hint { font-size: 1rem; }
+    body.tv .thread-title {
+      font-size: 0.98rem;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    body.tv .badge-urgent { font-size: 0.7rem; padding: 2px 6px; }
+    body.tv .thread-meta {
+      font-size: 0.8rem;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    body.tv .empty-hint { font-size: 0.92rem; }
 
     body.tv .modal {
       width: min(720px, 92vw);
@@ -604,12 +660,12 @@
 
     /* 2K+ (2560×1440): scale a bit more */
     @media (min-width: 2400px) and (min-height: 1300px) {
-      body.tv .wrap { padding: 22px 36px 24px; gap: 16px; }
-      body.tv .brand { font-size: 2.5rem; }
-      body.tv .live-clock { font-size: 2.8rem; }
-      body.tv .metric-tag .value { font-size: 2.15rem; }
-      body.tv .thread-title { font-size: 1.15rem; }
-      body.tv .channel-tag { font-size: 1.08rem; }
+      body.tv .wrap { padding: 16px 32px 18px; gap: 12px; }
+      body.tv .brand { font-size: 2.2rem; }
+      body.tv .live-clock { font-size: 2.4rem; }
+      body.tv .metric-tag .value { font-size: 1.6rem; }
+      body.tv .thread-title { font-size: 1.12rem; }
+      body.tv .channel-tag { font-size: 1.05rem; }
     }
   </style>
 </head>
@@ -855,6 +911,7 @@
     }
 
     function postsLimit() {
+      // TV: tối đa 2 bài/kênh (ưu tiên Gấp) để không bị cắt layout
       return document.body.classList.contains("tv") ? 2 : 8;
     }
 
