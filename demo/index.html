@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard vận hành — Demo</title>
+  <title>Dashboard vận hành — Queen · Star</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #f3f6f4;
@@ -27,6 +27,7 @@
       --white: #ffffff;
       --shadow: 0 10px 28px rgba(26, 36, 32, 0.08);
       --radius: 14px;
+      --posts-visible: 3;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,8 +40,17 @@
         radial-gradient(ellipse 70% 40% at 100% 0%, #fde8ee 0%, transparent 50%),
         linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
       min-height: 100vh;
-      line-height: 1.45;
+      line-height: 1.4;
     }
+
+    .demo-banner {
+      background: #1f3d32;
+      color: #e8f2ed;
+      font-size: 0.78rem;
+      text-align: center;
+      padding: 8px 12px;
+    }
+    .demo-banner strong { color: #f5d76e; }
 
     .wrap {
       width: min(1100px, calc(100% - 28px));
@@ -54,7 +64,7 @@
       align-items: flex-end;
       justify-content: space-between;
       gap: 12px 20px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .brand {
@@ -63,23 +73,39 @@
       font-weight: 700;
       letter-spacing: -0.02em;
     }
-
     .brand span {
       display: block;
       font-family: "Be Vietnam Pro", sans-serif;
       font-size: 0.78rem;
       font-weight: 500;
       color: var(--muted);
-      letter-spacing: 0.02em;
       margin-top: 2px;
     }
 
-    .sync-meta {
-      font-size: 0.82rem;
-      color: var(--muted);
+    .head-right {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
       text-align: right;
     }
 
+    .live-clock {
+      font-family: Outfit, sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .live-clock small {
+      display: block;
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .sync-meta { font-size: 0.82rem; color: var(--muted); }
     .sync-meta button {
       margin-top: 6px;
       border: 1px solid var(--line);
@@ -92,18 +118,29 @@
       border-radius: 999px;
       cursor: pointer;
     }
-
     .sync-meta button:hover { background: #f0f5f2; }
 
-    /* —— Metrics —— */
+    .tv-toggle {
+      border: 1px dashed var(--muted);
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tv-toggle:hover { color: var(--ink); border-color: var(--ink); }
+
     section.metrics {
       background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(201, 213, 206, 0.8);
       border-radius: var(--radius);
-      padding: 16px 16px 12px;
+      padding: 14px;
       box-shadow: var(--shadow);
-      margin-bottom: 28px;
+      margin-bottom: 18px;
     }
 
     .date-row {
@@ -111,13 +148,12 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
       background: var(--tag);
       color: var(--tag-text);
       font-weight: 600;
@@ -137,8 +173,13 @@
       color: var(--ink);
     }
 
-    .metric-block { margin-bottom: 10px; }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
 
+    .metric-block { min-width: 0; }
     .ship-label {
       display: inline-block;
       font-weight: 700;
@@ -147,20 +188,14 @@
       border-radius: 8px;
       margin-bottom: 8px;
     }
-
     .ship-label.queen { background: var(--queen); }
     .ship-label.star { background: var(--star); }
 
     .metric-rows { display: grid; gap: 8px; }
-
     .metric-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-    }
-
-    @media (max-width: 640px) {
-      .metric-row { grid-template-columns: 1fr; }
     }
 
     .metric-tag {
@@ -174,13 +209,16 @@
       flex-direction: column;
       justify-content: center;
     }
-
+    .metric-tag .shift {
+      font-size: 0.7rem;
+      font-weight: 700;
+      opacity: 0.7;
+    }
     .metric-tag .label {
       font-size: 0.72rem;
       font-weight: 500;
       opacity: 0.85;
     }
-
     .metric-tag .value {
       font-family: Outfit, sans-serif;
       font-size: 1.15rem;
@@ -188,51 +226,50 @@
       margin-top: 2px;
     }
 
-    .metric-tag .shift {
-      font-size: 0.7rem;
-      font-weight: 700;
-      opacity: 0.7;
-      margin-bottom: 2px;
+    section.forums {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
     }
-
-    /* —— Forums —— */
-    section.forums h2 {
+    section.forums > h2 {
       font-family: Outfit, sans-serif;
       font-size: 1.15rem;
-      margin-bottom: 14px;
       letter-spacing: -0.01em;
     }
 
     .ships {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    @media (max-width: 800px) {
-      .ships { grid-template-columns: 1fr; }
+      gap: 14px;
+      min-height: 0;
     }
 
     .ship-col {
       background: rgba(255, 255, 255, 0.65);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 14px;
+      padding: 12px;
       box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
     }
 
-    .ship-col > .ship-label { margin-bottom: 12px; }
-
-    .channel { margin-bottom: 14px; }
-
-    .channel:last-child { margin-bottom: 0; }
+    .channel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+    }
 
     .channel-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .channel-tag {
@@ -242,7 +279,6 @@
       border-radius: 999px;
       border: 1px solid transparent;
     }
-
     .channel-tag.kitchen { background: var(--kitchen); border-color: #e6c84a; }
     .channel-tag.floor { background: var(--floor); border-color: #8fc986; }
     .channel-tag.crew { background: var(--crew); border-color: #7eb8dc; }
@@ -258,21 +294,19 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
-    .channel-head button:hover {
-      color: var(--ink);
-      border-color: var(--ink);
-    }
+    .channel-head button:hover { color: var(--ink); border-color: var(--ink); }
 
     .thread-box {
       background: var(--panel);
       border: 1.5px dashed var(--panel-border);
       border-radius: 12px;
-      min-height: 88px;
+      min-height: 72px;
       padding: 8px;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      flex: 1;
+      min-height: 0;
     }
 
     .thread-item {
@@ -286,15 +320,8 @@
       color: inherit;
       transition: border-color 0.15s, transform 0.15s;
     }
-
-    .thread-item:hover {
-      border-color: #d4c478;
-      transform: translateY(-1px);
-    }
-
-    .thread-item.urgent {
-      border-left: 3px solid var(--urgent);
-    }
+    .thread-item:hover { border-color: #d4c478; transform: translateY(-1px); }
+    .thread-item.urgent { border-left: 3px solid var(--urgent); }
 
     .thread-title {
       font-size: 0.84rem;
@@ -303,7 +330,6 @@
       align-items: flex-start;
       gap: 6px;
     }
-
     .badge-urgent {
       flex-shrink: 0;
       background: var(--urgent);
@@ -312,16 +338,13 @@
       font-weight: 700;
       padding: 2px 6px;
       border-radius: 5px;
-      text-transform: uppercase;
       letter-spacing: 0.03em;
     }
-
     .thread-meta {
       font-size: 0.72rem;
       color: var(--muted);
       margin-top: 3px;
     }
-
     .empty-hint {
       color: var(--muted);
       font-size: 0.8rem;
@@ -329,7 +352,7 @@
       text-align: center;
     }
 
-    /* —— Modal —— */
+    /* Modal */
     .overlay {
       position: fixed;
       inset: 0;
@@ -340,30 +363,24 @@
       z-index: 40;
       padding: 12px;
     }
-
     .overlay.open { display: flex; }
-
-    @media (min-width: 700px) {
-      .overlay { align-items: center; }
-    }
+    @media (min-width: 700px) { .overlay { align-items: center; } }
 
     .modal {
       background: var(--white);
       width: min(520px, 100%);
       max-height: min(88vh, 720px);
-      border-radius: 16px 16px 12px 12px;
+      border-radius: 16px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       animation: rise 0.22s ease-out;
     }
-
     @keyframes rise {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .modal-head {
       padding: 14px 16px;
       border-bottom: 1px solid var(--line);
@@ -372,19 +389,8 @@
       gap: 10px;
       align-items: flex-start;
     }
-
-    .modal-head h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
-    .modal-head .sub {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
+    .modal-head h3 { font-size: 1rem; font-weight: 700; line-height: 1.35; }
+    .modal-head .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
     .modal-head .close {
       border: none;
       background: #eef2ef;
@@ -393,9 +399,7 @@
       border-radius: 8px;
       font-size: 1.1rem;
       cursor: pointer;
-      line-height: 1;
     }
-
     .modal-body {
       padding: 12px 16px;
       overflow-y: auto;
@@ -404,33 +408,25 @@
       flex-direction: column;
       gap: 10px;
     }
-
     .bubble {
       background: #f4f7f5;
       border-radius: 12px;
       padding: 10px 12px;
       font-size: 0.88rem;
     }
-
-    .bubble.op {
-      background: #fff8e0;
-      border: 1px solid #efe3a8;
-    }
-
+    .bubble.op { background: #fff8e0; border: 1px solid #efe3a8; }
     .bubble .who {
       font-size: 0.72rem;
       font-weight: 600;
       color: var(--muted);
       margin-bottom: 4px;
     }
-
     .modal-foot {
       padding: 12px 16px 14px;
       border-top: 1px solid var(--line);
       display: grid;
       gap: 8px;
     }
-
     .modal-foot textarea {
       font: inherit;
       font-size: 0.88rem;
@@ -440,13 +436,11 @@
       resize: vertical;
       min-height: 64px;
     }
-
     .modal-foot .actions {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
     }
-
     .btn {
       font: inherit;
       font-size: 0.84rem;
@@ -457,16 +451,11 @@
       background: var(--white);
       cursor: pointer;
     }
-
     .btn.primary {
       background: #1f3d32;
       color: #fff;
       border-color: #1f3d32;
     }
-
-    .btn.primary:hover { background: #2a5244; }
-
-    /* Compose modal fields */
     .compose-fields { display: grid; gap: 8px; padding: 12px 16px; }
     .compose-fields label {
       font-size: 0.78rem;
@@ -474,7 +463,6 @@
       color: var(--muted);
     }
     .compose-fields input,
-    .compose-fields select,
     .compose-fields textarea {
       font: inherit;
       font-size: 0.88rem;
@@ -489,23 +477,145 @@
       align-items: center;
       gap: 8px;
       font-size: 0.88rem;
-      font-weight: 500;
     }
 
-    .demo-banner {
-      background: #1f3d32;
-      color: #e8f2ed;
-      font-size: 0.78rem;
-      text-align: center;
-      padding: 8px 12px;
+    @media (max-width: 900px) {
+      .ships, .metrics-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .metric-row { grid-template-columns: 1fr; }
     }
 
-    .demo-banner strong { color: #f5d76e; }
+    /* ========== TV / 2K WALLBOARD ========== */
+    body.tv {
+      height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 45% at 0% 0%, #d7ebe0 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, #fde4eb 0%, transparent 45%),
+        linear-gradient(180deg, #eef3f0 0%, #e2ebe5 100%);
+    }
+    body.tv .demo-banner { display: none; }
+    body.tv .wrap {
+      width: 100%;
+      max-width: none;
+      height: 100vh;
+      margin: 0;
+      padding: 18px 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+    body.tv header.app-head {
+      flex-shrink: 0;
+      margin-bottom: 0;
+      align-items: center;
+    }
+    body.tv .brand {
+      font-size: 2.1rem;
+      font-weight: 800;
+    }
+    body.tv .brand span { font-size: 0.95rem; margin-top: 4px; }
+    body.tv .live-clock { font-size: 2.4rem; }
+    body.tv .live-clock small { font-size: 0.9rem; }
+    body.tv .sync-meta { font-size: 1rem; }
+    body.tv .sync-meta button,
+    body.tv .tv-toggle {
+      font-size: 0.9rem;
+      padding: 8px 14px;
+    }
+
+    body.tv section.metrics {
+      flex-shrink: 0;
+      margin-bottom: 0;
+      padding: 14px 16px;
+    }
+    body.tv .date-row { margin-bottom: 10px; }
+    body.tv .pill { font-size: 1rem; padding: 8px 16px; }
+    body.tv .date-row input[type="date"] { font-size: 1rem; padding: 8px 12px; }
+    body.tv .ship-label { font-size: 1.05rem; padding: 5px 14px; margin-bottom: 8px; }
+    body.tv .metrics-grid { gap: 16px; }
+    body.tv .metric-rows { gap: 8px; }
+    body.tv .metric-tag {
+      min-height: 70px;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+    body.tv .metric-tag .shift { font-size: 0.85rem; }
+    body.tv .metric-tag .label { font-size: 0.92rem; }
+    body.tv .metric-tag .value { font-size: 1.85rem; font-weight: 800; }
+
+    body.tv section.forums {
+      flex: 1;
+      min-height: 0;
+      gap: 10px;
+    }
+    body.tv section.forums > h2 {
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    body.tv .ships {
+      flex: 1;
+      min-height: 0;
+      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+    }
+    body.tv .ship-col {
+      padding: 12px 14px;
+      gap: 10px;
+      overflow: hidden;
+    }
+    body.tv .ship-col > .ship-label {
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+    body.tv .channel { flex: 1; min-height: 0; }
+    body.tv .channel-tag { font-size: 1rem; padding: 7px 14px; }
+    body.tv .channel-head button { font-size: 0.85rem; padding: 6px 12px; }
+    body.tv .thread-box {
+      gap: 7px;
+      padding: 8px;
+      overflow: hidden;
+    }
+    body.tv .thread-item {
+      padding: 10px 12px;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    body.tv .thread-title { font-size: 1.05rem; line-height: 1.3; }
+    body.tv .badge-urgent { font-size: 0.75rem; padding: 3px 8px; }
+    body.tv .thread-meta { font-size: 0.88rem; margin-top: 4px; }
+    body.tv .empty-hint { font-size: 1rem; }
+
+    body.tv .modal {
+      width: min(720px, 92vw);
+      max-height: 80vh;
+    }
+    body.tv .modal-head h3 { font-size: 1.35rem; }
+    body.tv .modal-head .sub,
+    body.tv .bubble .who { font-size: 0.95rem; }
+    body.tv .bubble { font-size: 1.1rem; padding: 14px 16px; }
+    body.tv .btn { font-size: 1rem; padding: 10px 18px; }
+    body.tv .modal-foot textarea,
+    body.tv .compose-fields input,
+    body.tv .compose-fields textarea { font-size: 1.05rem; }
+
+    /* 2K+ (2560×1440): scale a bit more */
+    @media (min-width: 2400px) and (min-height: 1300px) {
+      body.tv .wrap { padding: 22px 36px 24px; gap: 16px; }
+      body.tv .brand { font-size: 2.5rem; }
+      body.tv .live-clock { font-size: 2.8rem; }
+      body.tv .metric-tag .value { font-size: 2.15rem; }
+      body.tv .thread-title { font-size: 1.15rem; }
+      body.tv .channel-tag { font-size: 1.08rem; }
+    }
   </style>
 </head>
 <body>
   <div class="demo-banner">
-    <strong>DEMO HTML</strong> — dữ liệu mẫu, chưa nối Google Sheet / đăng nhập thật
+    <strong>DEMO</strong> — dữ liệu mẫu · thêm <code>?tv=1</code> hoặc bấm “Chế độ Tivi” để xem wallboard 2K
   </div>
 
   <div class="wrap">
@@ -514,9 +624,18 @@
         Queen · Star
         <span>Tổng quan vận hành & báo cáo nội bộ</span>
       </div>
-      <div class="sync-meta">
-        <div>Sheet sync: <span id="syncTime">—</span></div>
-        <button type="button" id="btnRefresh">Làm mới số liệu</button>
+      <div class="head-right">
+        <div class="live-clock">
+          <div id="clockTime">--:--</div>
+          <small id="clockDate">—</small>
+        </div>
+        <div class="sync-meta">
+          <div>Sheet sync: <span id="syncTime">—</span></div>
+          <button type="button" id="btnRefresh">Làm mới số liệu</button>
+          <div style="margin-top:8px">
+            <button type="button" class="tv-toggle" id="btnTv">Chế độ Tivi</button>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -525,15 +644,15 @@
         <span class="pill">Ngày</span>
         <input type="date" id="datePick" />
       </div>
-
-      <div class="metric-block">
-        <span class="ship-label queen">Queen</span>
-        <div class="metric-rows" id="metricsQueen"></div>
-      </div>
-
-      <div class="metric-block">
-        <span class="ship-label star">Star</span>
-        <div class="metric-rows" id="metricsStar"></div>
+      <div class="metrics-grid">
+        <div class="metric-block">
+          <span class="ship-label queen">Queen</span>
+          <div class="metric-rows" id="metricsQueen"></div>
+        </div>
+        <div class="metric-block">
+          <span class="ship-label star">Star</span>
+          <div class="metric-rows" id="metricsStar"></div>
+        </div>
       </div>
     </section>
 
@@ -545,21 +664,21 @@
           <div class="channel" data-dept="kitchen">
             <div class="channel-head">
               <span class="channel-tag kitchen">Báo cáo bếp</span>
-              <button type="button" data-compose="Queen|kitchen">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Queen|kitchen">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Queen-kitchen"></div>
           </div>
           <div class="channel" data-dept="floor">
             <div class="channel-head">
               <span class="channel-tag floor">Báo cáo bộ phận bàn</span>
-              <button type="button" data-compose="Queen|floor">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Queen|floor">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Queen-floor"></div>
           </div>
           <div class="channel" data-dept="crew">
             <div class="channel-head">
               <span class="channel-tag crew">Báo cáo thuỷ thủ</span>
-              <button type="button" data-compose="Queen|crew">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Queen|crew">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Queen-crew"></div>
           </div>
@@ -570,21 +689,21 @@
           <div class="channel" data-dept="kitchen">
             <div class="channel-head">
               <span class="channel-tag kitchen">Báo cáo bếp</span>
-              <button type="button" data-compose="Star|kitchen">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Star|kitchen">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Star-kitchen"></div>
           </div>
           <div class="channel" data-dept="floor">
             <div class="channel-head">
               <span class="channel-tag floor">Báo cáo bộ phận bàn</span>
-              <button type="button" data-compose="Star|floor">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Star|floor">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Star-floor"></div>
           </div>
           <div class="channel" data-dept="crew">
             <div class="channel-head">
               <span class="channel-tag crew">Báo cáo thuỷ thủ</span>
-              <button type="button" data-compose="Star|crew">+ Gửi báo cáo</button>
+              <button type="button" data-compose="Star|crew">+ Gửi</button>
             </div>
             <div class="thread-box" id="ch-Star-crew"></div>
           </div>
@@ -593,7 +712,6 @@
     </section>
   </div>
 
-  <!-- Thread detail -->
   <div class="overlay" id="threadOverlay" role="dialog" aria-modal="true">
     <div class="modal">
       <div class="modal-head">
@@ -614,7 +732,6 @@
     </div>
   </div>
 
-  <!-- Compose -->
   <div class="overlay" id="composeOverlay" role="dialog" aria-modal="true">
     <div class="modal">
       <div class="modal-head">
@@ -667,77 +784,58 @@
 
     let posts = [
       {
-        id: "p1",
-        ship: "Queen",
-        dept: "kitchen",
+        id: "p1", ship: "Queen", dept: "kitchen",
         title: "Hết sốt tiêu — cần bổ sung trước 17h",
         body: "Tồn kho sốt tiêu còn khoảng 2 chai. Dự kiến T2 sẽ thiếu nếu không nhập thêm.",
-        urgent: true,
-        author: "Bếp · Lan",
-        time: "14:05",
+        urgent: true, author: "Bếp · Lan", time: "14:05",
         replies: [
           { author: "Kho · Minh", time: "14:12", text: "Đã đặt thêm, ship sẽ giao ~16:30." },
           { author: "Bếp · Lan", time: "14:15", text: "Ok, cảm ơn — giữ được đến lúc đó." },
         ],
       },
       {
-        id: "p2",
-        ship: "Queen",
-        dept: "floor",
+        id: "p2", ship: "Queen", dept: "floor",
         title: "Bàn 12 yêu cầu đổi vị trí (gần cửa sổ)",
         body: "Khách đoàn 6 người, đang ngồi bàn 12, muốn chuyển gần cửa sổ nếu còn chỗ.",
-        urgent: false,
-        author: "Bàn · Hùng",
-        time: "13:40",
-        replies: [
-          { author: "Bàn · Mai", time: "13:44", text: "Bàn 3 vừa trống — mình chuyển giúp." },
-        ],
+        urgent: false, author: "Bàn · Hùng", time: "13:40",
+        replies: [{ author: "Bàn · Mai", time: "13:44", text: "Bàn 3 vừa trống — mình chuyển giúp." }],
       },
       {
-        id: "p3",
-        ship: "Queen",
-        dept: "crew",
+        id: "p3", ship: "Queen", dept: "crew",
         title: "Check dây buộc mạn phải OK",
         body: "Đã kiểm tra dây buộc ca chiều, tình trạng bình thường.",
-        urgent: false,
-        author: "TT · Long",
-        time: "12:20",
-        replies: [],
+        urgent: false, author: "TT · Long", time: "12:20", replies: [],
       },
       {
-        id: "p4",
-        ship: "Star",
-        dept: "kitchen",
+        id: "p4", ship: "Star", dept: "kitchen",
         title: "Lò nướng 2 nhiệt không ổn định",
         body: "Nhiệt độ dao động ±30°C. Đang dùng lò 1 bù. Cần kỹ thuật xem gấp trước T2.",
-        urgent: true,
-        author: "Bếp · Tuấn",
-        time: "13:55",
-        replies: [
-          { author: "KT · Phong", time: "14:02", text: "Đang xuống tàu Star, ETA 10 phút." },
-        ],
+        urgent: true, author: "Bếp · Tuấn", time: "13:55",
+        replies: [{ author: "KT · Phong", time: "14:02", text: "Đang xuống tàu Star, ETA 10 phút." }],
       },
       {
-        id: "p5",
-        ship: "Star",
-        dept: "floor",
+        id: "p5", ship: "Star", dept: "floor",
         title: "Đủ set menu T1 — không phát sinh",
         body: "T1 chạy ổn. Còn 8 set dự phòng.",
-        urgent: false,
-        author: "Bàn · Nga",
-        time: "12:50",
-        replies: [],
+        urgent: false, author: "Bàn · Nga", time: "12:50", replies: [],
       },
       {
-        id: "p6",
-        ship: "Star",
-        dept: "crew",
+        id: "p6", ship: "Star", dept: "crew",
         title: "GẤP: Rò rỉ nhẹ khu vực cầu thang 2",
         body: "Phát hiện ẩm sàn cầu thang 2. Đã chắn tạm, cần bảo trì kiểm tra ống.",
-        urgent: true,
-        author: "TT · Khoa",
-        time: "14:18",
-        replies: [],
+        urgent: true, author: "TT · Khoa", time: "14:18", replies: [],
+      },
+      {
+        id: "p7", ship: "Queen", dept: "kitchen",
+        title: "Buffet tráng miệng đã setup xong",
+        body: "Kệ tráng miệng tầng 2 sẵn sàng trước giờ đón khách.",
+        urgent: false, author: "Bếp · Hà", time: "13:10", replies: [],
+      },
+      {
+        id: "p8", ship: "Star", dept: "floor",
+        title: "Thiếu 2 ghế phụ tầng 1",
+        body: "Đoàn 12 khách, cần thêm 2 ghế phụ gần cửa sổ.",
+        urgent: true, author: "Bàn · Vy", time: "14:22", replies: [],
       },
     ];
 
@@ -746,6 +844,18 @@
 
     function fmtPct(g, c) {
       return c ? Math.round((g / c) * 100) + "%" : "—";
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function postsLimit() {
+      return document.body.classList.contains("tv") ? 2 : 8;
     }
 
     function renderMetrics() {
@@ -787,16 +897,33 @@
       });
     }
 
+    function tickClock() {
+      const now = new Date();
+      document.getElementById("clockTime").textContent = now.toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      document.getElementById("clockDate").textContent = now.toLocaleDateString("vi-VN", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    }
+
     function renderChannels() {
+      const limit = postsLimit();
       ["Queen", "Star"].forEach((ship) => {
         ["kitchen", "floor", "crew"].forEach((dept) => {
           const box = document.getElementById(`ch-${ship}-${dept}`);
           const list = posts
             .filter((p) => p.ship === ship && p.dept === dept)
-            .sort((a, b) => (a.urgent === b.urgent ? 0 : a.urgent ? -1 : 1));
+            .sort((a, b) => (a.urgent === b.urgent ? 0 : a.urgent ? -1 : 1))
+            .slice(0, limit);
 
           if (!list.length) {
-            box.innerHTML = `<div class="empty-hint">Chưa có báo cáo — bấm “+ Gửi báo cáo”</div>`;
+            box.innerHTML = `<div class="empty-hint">Chưa có báo cáo</div>`;
             return;
           }
 
@@ -816,14 +943,6 @@
       });
     }
 
-    function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
     function openThread(id) {
       const p = posts.find((x) => x.id === id);
       if (!p) return;
@@ -832,9 +951,7 @@
       document.getElementById("threadSub").textContent =
         `${p.ship} · ${DEPT_LABEL[p.dept]} · ${p.author} · ${p.time}` +
         (p.urgent ? " · GẤP" : "");
-
-      const body = document.getElementById("threadReplies");
-      body.innerHTML = `
+      document.getElementById("threadReplies").innerHTML = `
         <div class="bubble op">
           <div class="who">${escapeHtml(p.author)} · ${p.time}</div>
           <div>${escapeHtml(p.body)}</div>
@@ -848,7 +965,6 @@
           </div>`
           )
           .join("")}`;
-
       document.getElementById("replyText").value = "";
       document.getElementById("threadOverlay").classList.add("open");
     }
@@ -869,9 +985,27 @@
       composeTarget = null;
     }
 
-    // Events
+    function setTvMode(on, persist) {
+      document.body.classList.toggle("tv", on);
+      const btn = document.getElementById("btnTv");
+      btn.textContent = on ? "Thoát chế độ Tivi" : "Chế độ Tivi";
+      if (persist) {
+        const url = new URL(location.href);
+        if (on) url.searchParams.set("tv", "1");
+        else url.searchParams.delete("tv");
+        history.replaceState(null, "", url);
+      }
+      renderChannels();
+    }
+
+    function shouldAutoTv() {
+      const q = new URLSearchParams(location.search);
+      if (q.get("tv") === "1") return true;
+      if (q.get("tv") === "0") return false;
+      return window.innerWidth >= 1920 && window.innerHeight >= 1000;
+    }
+
     document.getElementById("btnRefresh").addEventListener("click", () => {
-      // Demo: dao động nhẹ số liệu
       Object.keys(occupancy).forEach((ship) => {
         ["T1", "T2"].forEach((shift) => {
           const o = occupancy[ship][shift];
@@ -881,6 +1015,10 @@
       });
       renderMetrics();
       stampSync();
+    });
+
+    document.getElementById("btnTv").addEventListener("click", () => {
+      setTvMode(!document.body.classList.contains("tv"), true);
     });
 
     document.addEventListener("click", (e) => {
@@ -945,12 +1083,22 @@
       renderChannels();
     });
 
-    // Init
-    const today = new Date();
-    document.getElementById("datePick").value = today.toISOString().slice(0, 10);
+    document.getElementById("datePick").value = new Date().toISOString().slice(0, 10);
+    setTvMode(shouldAutoTv(), false);
     renderMetrics();
     renderChannels();
     stampSync();
+    tickClock();
+    setInterval(tickClock, 1000);
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const q = new URLSearchParams(location.search);
+        if (!q.has("tv")) setTvMode(shouldAutoTv(), false);
+      }, 200);
+    });
   </script>
 </body>
 </html>
