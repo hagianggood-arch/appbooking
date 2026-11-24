@@ -516,42 +516,11 @@
       accent-color: var(--urgent);
     }
 
-    /* TV */
-    body.tv {
-      height: 100vh;
-      overflow: hidden;
-      background: #e8efe9;
-    }
-    body.tv .demo-banner { display: none; }
-    body.tv .wrap {
-      width: 100%;
-      max-width: none;
-      height: 100vh;
-      margin: 0;
-      padding: 12px 20px 14px;
-      gap: 10px;
-      overflow: hidden;
-    }
-    body.tv .brand { font-size: 1.85rem; }
-    body.tv .live-clock { font-size: 2rem; }
-    body.tv .ships-stack {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding-right: 4px;
-      gap: 10px;
-    }
-    body.tv .zone-stat b { font-size: 1.25rem; }
-    body.tv .post-title { font-size: 0.98rem; }
-    body.tv .ship-head h2,
-    body.tv .office-head h2 { font-size: 1.15rem; }
-    body.tv .dept-grid { gap: 10px; }
-    /* On TV: collapse less-critical ships by default via JS */
   </style>
 </head>
 <body>
   <div class="demo-banner">
-    <strong>DEMO</strong> — tàu xếp dọc · khu/tầng đúng cấu trúc khách · Văn phòng + Ẩn/Hiện · <code>?tv=1</code>
+    <strong>DEMO</strong> — tàu xếp dọc · khu/tầng đúng cấu trúc khách · Văn phòng + Ẩn/Hiện
   </div>
 
   <div class="wrap">
@@ -572,7 +541,6 @@
           <button type="button" class="btn-soft" id="btnExpandAll">Mở tất cả</button>
           <button type="button" class="btn-soft" id="btnCollapseAll">Thu gọn</button>
           <button type="button" class="btn-soft" id="btnRefresh">Làm mới</button>
-          <button type="button" class="btn-soft" id="btnTv">Chế độ Tivi</button>
         </div>
       </div>
     </header>
@@ -812,7 +780,7 @@
     }
 
     function postsLimit() {
-      return document.body.classList.contains("tv") ? 2 : 3;
+      return 3;
     }
 
     function channelPosts(ship, dept) {
@@ -1009,29 +977,6 @@
       composeTarget = null;
     }
 
-    function setTvMode(on, persist) {
-      document.body.classList.toggle("tv", on);
-      document.getElementById("btnTv").textContent = on ? "Thoát chế độ Tivi" : "Chế độ Tivi";
-      if (on) {
-        // TV: mở Queen+Star, thu Pearl+Jade
-        SHIPS.forEach((s) => setOpen(`ship-${s.id}`, !!s.openDefault));
-      }
-      if (persist) {
-        const url = new URL(location.href);
-        if (on) url.searchParams.set("tv", "1");
-        else url.searchParams.delete("tv");
-        history.replaceState(null, "", url);
-      }
-      renderAll();
-    }
-
-    function shouldAutoTv() {
-      const q = new URLSearchParams(location.search);
-      if (q.get("tv") === "1") return true;
-      if (q.get("tv") === "0") return false;
-      return window.innerWidth >= 1920 && window.innerHeight >= 1000;
-    }
-
     document.getElementById("btnRefresh").addEventListener("click", () => {
       Object.keys(occupancy).forEach((shipId) => {
         Object.keys(occupancy[shipId]).forEach((z) => {
@@ -1041,10 +986,6 @@
       });
       renderShips();
       stampSync();
-    });
-
-    document.getElementById("btnTv").addEventListener("click", () => {
-      setTvMode(!document.body.classList.contains("tv"), true);
     });
 
     document.getElementById("btnExpandAll").addEventListener("click", () => {
@@ -1129,7 +1070,6 @@
     });
 
     document.getElementById("datePick").value = new Date().toISOString().slice(0, 10);
-    setTvMode(shouldAutoTv(), false);
     renderAll();
     stampSync();
     tickClock();
