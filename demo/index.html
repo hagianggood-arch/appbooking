@@ -9,15 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #eef2ef;
+      --bg: #e8efe9;
       --ink: #14201b;
       --muted: #5a6a63;
       --line: #c5d0ca;
       --queen: #c9b8e8;
       --star: #f5b8c8;
+      --ship3: #b8d4f0;
+      --ship4: #d4c4a8;
       --kitchen: #f0d25c;
       --floor: #9fd49a;
       --crew: #8ec8e8;
+      --office: #d7dde8;
       --urgent: #e04538;
       --urgent-bg: #fff1ef;
       --card: #ffffff;
@@ -47,15 +50,14 @@
     .demo-banner strong { color: #f5d76e; }
 
     .wrap {
-      width: min(1200px, calc(100% - 24px));
+      width: min(1100px, calc(100% - 24px));
       margin: 0 auto;
-      padding: 16px 0 40px;
+      padding: 16px 0 48px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    /* —— Header —— */
     .app-head {
       display: flex;
       align-items: center;
@@ -65,7 +67,7 @@
     }
     .brand {
       font-family: Outfit, sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
@@ -80,13 +82,13 @@
     .head-right {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
     }
     .live-clock {
       font-family: Outfit, sans-serif;
       font-weight: 800;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       text-align: right;
       line-height: 1;
     }
@@ -98,12 +100,7 @@
       color: var(--muted);
       margin-top: 4px;
     }
-    .head-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+    .head-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .btn-soft {
       font: inherit;
       font-size: 0.78rem;
@@ -112,84 +109,20 @@
       border-radius: 999px;
       border: 1px solid var(--line);
       background: var(--card);
-      color: var(--ink);
       cursor: pointer;
     }
     .btn-soft:hover { background: #f0f5f2; }
     .sync-label { font-size: 0.75rem; color: var(--muted); }
 
-    /* —— Urgent strip —— */
-    .urgent-strip {
-      background: var(--urgent-bg);
-      border: 1px solid #f5c4be;
-      border-left: 5px solid var(--urgent);
-      border-radius: var(--radius);
-      padding: 10px 12px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px 14px;
-      align-items: center;
-      min-height: 52px;
-    }
-    .urgent-label {
-      font-family: Outfit, sans-serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      color: #fff;
-      background: var(--urgent);
-      padding: 6px 10px;
-      border-radius: 8px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-    .urgent-list {
+    .toolbar {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      min-width: 0;
-    }
-    .urgent-chip {
-      font: inherit;
-      border: 1px solid #f0b2ab;
-      background: #fff;
-      color: var(--ink);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .urgent-chip:hover { border-color: var(--urgent); }
-    .urgent-chip .who {
-      color: var(--muted);
-      font-weight: 500;
-      margin-left: 6px;
-    }
-    .urgent-empty {
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* —— KPI —— */
-    .kpi {
+      align-items: center;
+      gap: 8px 12px;
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 10px 12px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 14px;
-    }
-    .kpi-date {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      padding: 8px 12px;
     }
     .pill {
       background: var(--tag);
@@ -200,148 +133,132 @@
       border-radius: 999px;
       border: 1px solid #e6c84a;
     }
-    .kpi-date input[type="date"] {
+    .toolbar input[type="date"] {
       font: inherit;
       font-size: 0.85rem;
       padding: 5px 8px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fff;
-    }
-    .kpi-ships {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      flex: 1;
-      min-width: 0;
-    }
-    .kpi-ship {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      flex: 1;
-      min-width: 280px;
-    }
-    .ship-badge {
-      font-weight: 800;
-      font-size: 0.8rem;
-      padding: 5px 10px;
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-    .ship-badge.queen { background: var(--queen); }
-    .ship-badge.star { background: var(--star); }
-    .kpi-shift {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #fff8dc;
-      border: 1px solid #ead98a;
-      border-radius: 10px;
-      padding: 6px 8px;
-      flex: 1;
-      min-width: 150px;
-    }
-    .kpi-shift .sh {
-      font-weight: 800;
-      font-size: 0.78rem;
-      color: var(--tag-text);
-      opacity: 0.75;
-    }
-    .kpi-shift .stat {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-    .kpi-shift .stat b {
-      font-family: Outfit, sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-    }
-    .kpi-shift .stat span {
-      font-size: 0.65rem;
-      color: var(--muted);
-      font-weight: 600;
-    }
-    .kpi-shift .sep {
-      width: 1px;
-      height: 28px;
-      background: #e5d89a;
-      margin: 0 2px;
     }
 
-    /* —— Board: 3 rows (dept) × 2 cols (ship) —— */
-    .board-head {
+    /* Urgent */
+    .urgent-strip {
+      background: var(--urgent-bg);
+      border: 1px solid #f5c4be;
+      border-left: 5px solid var(--urgent);
+      border-radius: var(--radius);
+      padding: 10px 12px;
       display: grid;
-      grid-template-columns: 88px 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: auto 1fr;
+      gap: 10px 14px;
       align-items: center;
     }
-    .board-head .col-title {
-      text-align: center;
+    .urgent-label {
+      font-family: Outfit, sans-serif;
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
+      color: #fff;
+      background: var(--urgent);
       padding: 6px 10px;
       border-radius: 8px;
     }
-    .board-head .col-title.queen { background: var(--queen); }
-    .board-head .col-title.star { background: var(--star); }
-    .board-head .corner {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: 88px 1fr 1fr;
-      grid-template-rows: repeat(3, minmax(140px, 1fr));
-      gap: 10px;
-      min-height: 420px;
-    }
-
-    .row-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-weight: 800;
+    .urgent-list { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+    .urgent-chip {
+      font: inherit;
+      border: 1px solid #f0b2ab;
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 12px;
       font-size: 0.82rem;
-      padding: 8px 6px;
-      border-radius: var(--radius);
-      writing-mode: horizontal-tb;
-      line-height: 1.25;
+      font-weight: 600;
+      cursor: pointer;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .row-label.kitchen { background: var(--kitchen); }
-    .row-label.floor { background: var(--floor); }
-    .row-label.crew { background: var(--crew); }
+    .urgent-chip .who { color: var(--muted); font-weight: 500; margin-left: 6px; }
+    .urgent-empty { font-size: 0.88rem; color: var(--muted); }
 
-    .cell {
+    /* Office */
+    .office {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
       overflow: hidden;
     }
-    .cell-head {
+    .office-head,
+    .ship-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      gap: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .office-head {
+      background: linear-gradient(90deg, #e8ecf4, #f5f7fa);
+    }
+    .office-head h2,
+    .ship-head h2 {
+      font-family: Outfit, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-soft {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--office);
+      color: var(--ink);
+    }
+    .toggle-btn {
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .office-body,
+    .ship-body {
+      padding: 0 12px 12px;
+      display: none;
+    }
+    .office.open .office-body,
+    .ship.open .ship-body { display: block; }
+
+    .channel-block {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+    }
+    .channel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       margin-bottom: 6px;
-      flex-shrink: 0;
     }
-    .cell-head .meta {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
+    .channel-tag {
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 999px;
     }
-    .cell-head button {
+    .channel-tag.office { background: var(--office); }
+    .channel-tag.kitchen { background: var(--kitchen); }
+    .channel-tag.floor { background: var(--floor); }
+    .channel-tag.crew { background: var(--crew); }
+    .channel-head button {
       font: inherit;
       font-size: 0.72rem;
       font-weight: 700;
@@ -352,30 +269,20 @@
       border-radius: 7px;
       cursor: pointer;
     }
-    .cell-head button:hover { color: var(--ink); border-color: var(--ink); }
 
-    .threads {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      overflow: hidden;
-      flex: 1;
-      min-height: 0;
-    }
-
+    .threads { display: flex; flex-direction: column; gap: 6px; }
     .post {
       width: 100%;
       text-align: left;
       font: inherit;
-      background: var(--panel);
+      background: #fff;
       border: 1px solid #d7e0db;
       border-radius: 9px;
       padding: 8px 10px;
       cursor: pointer;
       color: inherit;
-      flex-shrink: 0;
     }
-    .post:hover { border-color: #a9bdb4; background: #fff; }
+    .post:hover { border-color: #a9bdb4; }
     .post.urgent {
       background: #fff7f6;
       border-color: #f0b8b2;
@@ -403,22 +310,98 @@
       font-weight: 800;
       padding: 2px 5px;
       border-radius: 4px;
-      letter-spacing: 0.03em;
       margin-top: 1px;
     }
-    .post-meta {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 3px;
+    .post-meta { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+    .empty { font-size: 0.8rem; color: var(--muted); padding: 10px 6px; text-align: center; }
+
+    /* Ships stack */
+    .ships-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .empty {
-      font-size: 0.8rem;
-      color: var(--muted);
-      padding: 10px 6px;
+    .ship {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .ship-head.queen { background: linear-gradient(90deg, #ebe4f7, #faf8fd); }
+    .ship-head.star { background: linear-gradient(90deg, #fde8ef, #fffafb); }
+    .ship-head.pearl { background: linear-gradient(90deg, #e4eef8, #f7fbfe); }
+    .ship-head.jade { background: linear-gradient(90deg, #ebe4d8, #faf7f2); }
+
+    .ship-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .ship-badge.queen { background: var(--queen); }
+    .ship-badge.star { background: var(--star); }
+    .ship-badge.pearl { background: var(--ship3); }
+    .ship-badge.jade { background: var(--ship4); }
+
+    .zones {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .zone-row {
+      display: grid;
+      grid-template-columns: 88px repeat(3, 1fr);
+      gap: 6px;
+      align-items: stretch;
+    }
+    .zone-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.78rem;
+      background: #fff8dc;
+      border: 1px solid #ead98a;
+      border-radius: 9px;
+      color: var(--tag-text);
+      padding: 6px;
       text-align: center;
     }
+    .zone-stat {
+      background: #fff8dc;
+      border: 1px solid #ead98a;
+      border-radius: 9px;
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 44px;
+    }
+    .zone-stat b {
+      font-family: Outfit, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .zone-stat span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
 
-    /* —— Modal —— */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 800px) {
+      .zone-row { grid-template-columns: 72px repeat(3, 1fr); }
+      .dept-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Modal */
     .overlay {
       position: fixed;
       inset: 0;
@@ -533,17 +516,7 @@
       accent-color: var(--urgent);
     }
 
-    @media (max-width: 900px) {
-      .board-head, .board {
-        grid-template-columns: 1fr;
-      }
-      .board { grid-template-rows: none; }
-      .row-label { justify-content: flex-start; padding: 8px 12px; }
-      .board-head .col-title:first-of-type { display: none; }
-      .board-head .corner { display: none; }
-    }
-
-    /* ========== TV WALLBOARD ========== */
+    /* TV */
     body.tv {
       height: 100vh;
       overflow: hidden;
@@ -555,67 +528,37 @@
       max-width: none;
       height: 100vh;
       margin: 0;
-      padding: 14px 22px 16px;
+      padding: 12px 20px 14px;
       gap: 10px;
       overflow: hidden;
     }
-    body.tv .brand { font-size: 2rem; }
-    body.tv .brand span { font-size: 0.9rem; }
-    body.tv .live-clock { font-size: 2.2rem; }
-    body.tv .live-clock small { font-size: 0.88rem; }
-    body.tv .btn-soft { font-size: 0.88rem; padding: 8px 14px; }
-    body.tv .sync-label { font-size: 0.88rem; }
-
-    body.tv .urgent-strip { padding: 10px 14px; flex-shrink: 0; }
-    body.tv .urgent-label { font-size: 1rem; padding: 8px 12px; }
-    body.tv .urgent-chip { font-size: 0.95rem; padding: 8px 14px; max-width: 42vw; }
-
-    body.tv .kpi { flex-shrink: 0; padding: 8px 12px; }
-    body.tv .kpi-shift .stat b { font-size: 1.35rem; }
-    body.tv .kpi-shift .stat span { font-size: 0.72rem; }
-    body.tv .ship-badge { font-size: 0.9rem; }
-
-    body.tv .board-head { flex-shrink: 0; }
-    body.tv .board-head .col-title { font-size: 1.1rem; padding: 8px; }
-    body.tv .board {
-      flex: 1 1 auto;
+    body.tv .brand { font-size: 1.85rem; }
+    body.tv .live-clock { font-size: 2rem; }
+    body.tv .ships-stack {
+      flex: 1;
       min-height: 0;
-      grid-template-rows: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      overflow-y: auto;
+      padding-right: 4px;
+      gap: 10px;
     }
-    body.tv .row-label { font-size: 1rem; }
-    body.tv .cell { padding: 10px; }
-    body.tv .cell-head .meta { font-size: 0.85rem; }
-    body.tv .cell-head button { font-size: 0.85rem; padding: 5px 10px; }
-    body.tv .post { padding: 10px 12px; }
-    body.tv .post-title { font-size: 1.05rem; }
-    body.tv .post-meta { font-size: 0.85rem; }
-    body.tv .badge { font-size: 0.72rem; padding: 3px 7px; }
-    body.tv .modal { width: min(720px, 92vw); }
-    body.tv .modal-head h3 { font-size: 1.3rem; }
-    body.tv .bubble { font-size: 1.05rem; }
-
-    @media (min-width: 2400px) and (min-height: 1300px) {
-      body.tv .wrap { padding: 18px 32px 20px; gap: 12px; }
-      body.tv .brand { font-size: 2.35rem; }
-      body.tv .live-clock { font-size: 2.6rem; }
-      body.tv .urgent-chip { font-size: 1.05rem; }
-      body.tv .kpi-shift .stat b { font-size: 1.55rem; }
-      body.tv .post-title { font-size: 1.15rem; }
-      body.tv .row-label { font-size: 1.15rem; }
-    }
+    body.tv .zone-stat b { font-size: 1.25rem; }
+    body.tv .post-title { font-size: 0.98rem; }
+    body.tv .ship-head h2,
+    body.tv .office-head h2 { font-size: 1.15rem; }
+    body.tv .dept-grid { gap: 10px; }
+    /* On TV: collapse less-critical ships by default via JS */
   </style>
 </head>
 <body>
   <div class="demo-banner">
-    <strong>DEMO</strong> — wallboard tối ưu cho Tivi · thêm <code>?tv=1</code> hoặc bấm “Chế độ Tivi”
+    <strong>DEMO</strong> — tàu xếp dọc · khu/tầng đúng cấu trúc khách · Văn phòng + Ẩn/Hiện · <code>?tv=1</code>
   </div>
 
   <div class="wrap">
     <header class="app-head">
       <div class="brand">
         Queen · Star
-        <span>Tổng quan vận hành & báo cáo nội bộ</span>
+        <span>Tổng quan vận hành · sẵn sàng 4 tàu</span>
       </div>
       <div class="head-right">
         <div>
@@ -626,80 +569,41 @@
           </div>
         </div>
         <div class="head-actions">
+          <button type="button" class="btn-soft" id="btnExpandAll">Mở tất cả</button>
+          <button type="button" class="btn-soft" id="btnCollapseAll">Thu gọn</button>
           <button type="button" class="btn-soft" id="btnRefresh">Làm mới</button>
           <button type="button" class="btn-soft" id="btnTv">Chế độ Tivi</button>
         </div>
       </div>
     </header>
 
+    <div class="toolbar">
+      <span class="pill">Ngày</span>
+      <input type="date" id="datePick" />
+    </div>
+
     <section class="urgent-strip" aria-label="Việc gấp">
       <div class="urgent-label">GẤP</div>
       <div class="urgent-list" id="urgentList"></div>
     </section>
 
-    <section class="kpi" aria-label="Số liệu khách">
-      <div class="kpi-date">
-        <span class="pill">Ngày</span>
-        <input type="date" id="datePick" />
+    <section class="office open" id="officeBlock">
+      <div class="office-head" data-toggle="officeBlock">
+        <h2>Văn phòng <span class="badge-soft">Nội bộ</span></h2>
+        <button type="button" class="toggle-btn" id="officeToggle">Ẩn</button>
       </div>
-      <div class="kpi-ships" id="kpiShips"></div>
+      <div class="office-body">
+        <div class="channel-block">
+          <div class="channel-head">
+            <span class="channel-tag office">Kênh văn phòng</span>
+            <button type="button" data-compose="office|office">+ Gửi</button>
+          </div>
+          <div class="threads" id="ch-office-office"></div>
+        </div>
+      </div>
     </section>
 
-    <div class="board-head" aria-hidden="true">
-      <div class="corner">Bộ phận</div>
-      <div class="col-title queen">Queen</div>
-      <div class="col-title star">Star</div>
-    </div>
-
-    <section class="board" aria-label="Báo cáo theo bộ phận">
-      <div class="row-label kitchen">Bếp</div>
-      <div class="cell" data-ship="Queen" data-dept="kitchen">
-        <div class="cell-head">
-          <span class="meta">Queen · Bếp</span>
-          <button type="button" data-compose="Queen|kitchen">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Queen-kitchen"></div>
-      </div>
-      <div class="cell" data-ship="Star" data-dept="kitchen">
-        <div class="cell-head">
-          <span class="meta">Star · Bếp</span>
-          <button type="button" data-compose="Star|kitchen">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Star-kitchen"></div>
-      </div>
-
-      <div class="row-label floor">Bàn</div>
-      <div class="cell" data-ship="Queen" data-dept="floor">
-        <div class="cell-head">
-          <span class="meta">Queen · Bàn</span>
-          <button type="button" data-compose="Queen|floor">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Queen-floor"></div>
-      </div>
-      <div class="cell" data-ship="Star" data-dept="floor">
-        <div class="cell-head">
-          <span class="meta">Star · Bàn</span>
-          <button type="button" data-compose="Star|floor">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Star-floor"></div>
-      </div>
-
-      <div class="row-label crew">Thuỷ thủ</div>
-      <div class="cell" data-ship="Queen" data-dept="crew">
-        <div class="cell-head">
-          <span class="meta">Queen · Thuỷ thủ</span>
-          <button type="button" data-compose="Queen|crew">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Queen-crew"></div>
-      </div>
-      <div class="cell" data-ship="Star" data-dept="crew">
-        <div class="cell-head">
-          <span class="meta">Star · Thuỷ thủ</span>
-          <button type="button" data-compose="Star|crew">+ Gửi</button>
-        </div>
-        <div class="threads" id="ch-Star-crew"></div>
-      </div>
-    </section>
+    <div class="ships-stack" id="shipsStack"></div>
   </div>
 
   <div class="overlay" id="threadOverlay" role="dialog" aria-modal="true">
@@ -755,101 +659,130 @@
   </div>
 
   <script>
-    const DEPT_LABEL = {
-      kitchen: "Bếp",
-      floor: "Bàn",
-      crew: "Thuỷ thủ",
-    };
+    /** Config — thêm tàu / khu / bộ phận chỉ sửa ở đây */
+    const DEPARTMENTS = [
+      { id: "kitchen", label: "Bếp", className: "kitchen" },
+      { id: "floor", label: "Bàn", className: "floor" },
+      { id: "crew", label: "Thuỷ thủ", className: "crew" },
+    ];
 
-    const occupancy = {
-      Queen: {
-        T1: { guests: 128, capacity: 150 },
-        T2: { guests: 96, capacity: 150 },
+    const SHIPS = [
+      {
+        id: "queen",
+        name: "Queen",
+        theme: "queen",
+        zones: ["Tầng 1", "Tầng 2", "Tầng 3", "VIP"],
+        openDefault: true,
       },
-      Star: {
-        T1: { guests: 142, capacity: 160 },
-        T2: { guests: 110, capacity: 160 },
+      {
+        id: "star",
+        name: "Star",
+        theme: "star",
+        zones: ["Tầng 1", "Tầng 2", "Boong"],
+        openDefault: true,
+      },
+      {
+        id: "pearl",
+        name: "Pearl",
+        theme: "pearl",
+        zones: ["Tầng 1", "Tầng 2", "Tầng 3"],
+        openDefault: false,
+      },
+      {
+        id: "jade",
+        name: "Jade",
+        theme: "jade",
+        zones: ["Tầng 1", "Tầng 2", "VIP"],
+        openDefault: false,
+      },
+    ];
+
+    /** occupancy[shipId][zone] = { guests, capacity } */
+    const occupancy = {
+      queen: {
+        "Tầng 1": { guests: 128, capacity: 150 },
+        "Tầng 2": { guests: 96, capacity: 150 },
+        "Tầng 3": { guests: 110, capacity: 140 },
+        VIP: { guests: 42, capacity: 48 },
+      },
+      star: {
+        "Tầng 1": { guests: 142, capacity: 160 },
+        "Tầng 2": { guests: 110, capacity: 160 },
+        Boong: { guests: 28, capacity: 40 },
+      },
+      pearl: {
+        "Tầng 1": { guests: 88, capacity: 120 },
+        "Tầng 2": { guests: 76, capacity: 120 },
+        "Tầng 3": { guests: 64, capacity: 100 },
+      },
+      jade: {
+        "Tầng 1": { guests: 70, capacity: 110 },
+        "Tầng 2": { guests: 55, capacity: 110 },
+        VIP: { guests: 20, capacity: 30 },
       },
     };
 
     let posts = [
       {
-        id: "p1", ship: "Queen", dept: "kitchen",
+        id: "o1", ship: "office", dept: "office",
+        title: "Họp ca 16:00 — chốt số liệu hết chỗ tuần này",
+        body: "Văn phòng họp nhanh với điều hành Queen/Star lúc 16:00 tại phòng A.",
+        urgent: true, author: "VP · Giang", time: "09:10", replies: [],
+      },
+      {
+        id: "o2", ship: "office", dept: "office",
+        title: "Nhắc xuất hóa đơn đoàn ANEX còn treo",
+        body: "Các booking ANEX ngày 27/09 còn công nợ — kế toán check giúp.",
+        urgent: false, author: "VP · Hà", time: "08:40", replies: [],
+      },
+      {
+        id: "p1", ship: "queen", dept: "kitchen",
         title: "Hết sốt tiêu — cần bổ sung trước 17h",
-        body: "Tồn kho sốt tiêu còn khoảng 2 chai. Dự kiến T2 sẽ thiếu nếu không nhập thêm.",
+        body: "Tồn kho sốt tiêu còn khoảng 2 chai.",
         urgent: true, author: "Bếp · Lan", time: "14:05",
-        replies: [
-          { author: "Kho · Minh", time: "14:12", text: "Đã đặt thêm, giao ~16:30." },
-          { author: "Bếp · Lan", time: "14:15", text: "Ok, cảm ơn." },
-        ],
+        replies: [{ author: "Kho · Minh", time: "14:12", text: "Đã đặt thêm, giao ~16:30." }],
       },
       {
-        id: "p2", ship: "Queen", dept: "floor",
+        id: "p2", ship: "queen", dept: "floor",
         title: "Bàn 12 yêu cầu đổi vị trí (gần cửa sổ)",
-        body: "Khách đoàn 6 người muốn chuyển gần cửa sổ nếu còn chỗ.",
-        urgent: false, author: "Bàn · Hùng", time: "13:40",
-        replies: [{ author: "Bàn · Mai", time: "13:44", text: "Bàn 3 vừa trống — đã chuyển." }],
+        body: "Khách đoàn 6 người muốn chuyển gần cửa sổ.",
+        urgent: false, author: "Bàn · Hùng", time: "13:40", replies: [],
       },
       {
-        id: "p3", ship: "Queen", dept: "crew",
+        id: "p3", ship: "queen", dept: "crew",
         title: "Check dây buộc mạn phải OK",
-        body: "Đã kiểm tra dây buộc ca chiều, tình trạng bình thường.",
+        body: "Đã kiểm tra dây buộc ca chiều.",
         urgent: false, author: "TT · Long", time: "12:20", replies: [],
       },
       {
-        id: "p4", ship: "Star", dept: "kitchen",
+        id: "p4", ship: "star", dept: "kitchen",
         title: "Lò nướng 2 nhiệt không ổn định",
-        body: "Nhiệt dao động ±30°C. Đang dùng lò 1 bù. Cần kỹ thuật xem trước T2.",
-        urgent: true, author: "Bếp · Tuấn", time: "13:55",
-        replies: [{ author: "KT · Phong", time: "14:02", text: "Đang xuống Star, ETA 10 phút." }],
+        body: "Nhiệt dao động ±30°C. Cần kỹ thuật xem.",
+        urgent: true, author: "Bếp · Tuấn", time: "13:55", replies: [],
       },
       {
-        id: "p5", ship: "Star", dept: "floor",
-        title: "Đủ set menu T1 — không phát sinh",
-        body: "T1 chạy ổn. Còn 8 set dự phòng.",
-        urgent: false, author: "Bàn · Nga", time: "12:50", replies: [],
-      },
-      {
-        id: "p6", ship: "Star", dept: "crew",
-        title: "Rò rỉ nhẹ khu vực cầu thang 2",
-        body: "Phát hiện ẩm sàn cầu thang 2. Đã chắn tạm, cần bảo trì kiểm tra ống.",
-        urgent: true, author: "TT · Khoa", time: "14:18", replies: [],
-      },
-      {
-        id: "p7", ship: "Queen", dept: "kitchen",
-        title: "Buffet tráng miệng đã setup xong",
-        body: "Kệ tráng miệng tầng 2 sẵn sàng trước giờ đón khách.",
-        urgent: false, author: "Bếp · Hà", time: "13:10", replies: [],
-      },
-      {
-        id: "p8", ship: "Star", dept: "floor",
+        id: "p5", ship: "star", dept: "floor",
         title: "Thiếu 2 ghế phụ tầng 1",
-        body: "Đoàn 12 khách, cần thêm 2 ghế phụ gần cửa sổ.",
+        body: "Đoàn 12 khách cần thêm ghế phụ.",
         urgent: true, author: "Bàn · Vy", time: "14:22", replies: [],
       },
       {
-        id: "p9", ship: "Queen", dept: "floor",
-        title: "Khách VIP tầng 2 đã check-in đủ",
-        body: "Đoàn 8 khách VIP đã ngồi bàn, không phát sinh.",
-        urgent: false, author: "Bàn · My", time: "14:00", replies: [],
+        id: "p6", ship: "star", dept: "crew",
+        title: "Rò rỉ nhẹ khu vực cầu thang 2",
+        body: "Đã chắn tạm, cần bảo trì kiểm tra ống.",
+        urgent: true, author: "TT · Khoa", time: "14:18", replies: [],
       },
       {
-        id: "p10", ship: "Queen", dept: "crew",
-        title: "Đèn sàn hành lang đã thay xong",
-        body: "Thay 2 bóng LED hành lang mạn trái.",
-        urgent: false, author: "TT · Nam", time: "13:05", replies: [],
+        id: "p7", ship: "pearl", dept: "kitchen",
+        title: "Chuẩn bị menu lễ — thiếu 1 nồi lẩu",
+        body: "Cần mượn thêm nồi từ kho trung tâm.",
+        urgent: false, author: "Bếp · An", time: "11:20", replies: [],
       },
       {
-        id: "p11", ship: "Star", dept: "kitchen",
-        title: "Nhập thêm rau sống cho T2",
-        body: "Kho đã giao 3 thùng rau sống, bếp nhận đủ.",
-        urgent: false, author: "Bếp · Oanh", time: "13:20", replies: [],
-      },
-      {
-        id: "p12", ship: "Star", dept: "crew",
-        title: "Ca trực boong đã bàn giao",
-        body: "Bàn giao ca chiều, thiết bị cứu sinh đủ.",
-        urgent: false, author: "TT · Hải", time: "13:30", replies: [],
+        id: "p8", ship: "jade", dept: "floor",
+        title: "VIP yêu cầu mic họp 19:30",
+        body: "Đoàn họp riêng, chuẩn bị 2 mic.",
+        urgent: false, author: "Bàn · Trang", time: "10:50", replies: [],
       },
     ];
 
@@ -868,41 +801,43 @@
       return c ? Math.round((g / c) * 100) + "%" : "—";
     }
 
-    function postsLimit() {
-      return document.body.classList.contains("tv") ? 2 : 4;
+    function shipName(id) {
+      if (id === "office") return "Văn phòng";
+      return SHIPS.find((s) => s.id === id)?.name || id;
     }
 
-    function sortedChannel(ship, dept) {
+    function deptLabel(id) {
+      if (id === "office") return "Văn phòng";
+      return DEPARTMENTS.find((d) => d.id === id)?.label || id;
+    }
+
+    function postsLimit() {
+      return document.body.classList.contains("tv") ? 2 : 3;
+    }
+
+    function channelPosts(ship, dept) {
       return posts
         .filter((p) => p.ship === ship && p.dept === dept)
         .sort((a, b) => (a.urgent === b.urgent ? 0 : a.urgent ? -1 : 1));
     }
 
-    function renderKpi() {
-      const root = document.getElementById("kpiShips");
-      root.innerHTML = ["Queen", "Star"]
-        .map((ship) => {
-          const shifts = ["T1", "T2"]
-            .map((sh) => {
-              const { guests, capacity } = occupancy[ship][sh];
-              const empty = Math.max(0, capacity - guests);
-              return `
-              <div class="kpi-shift">
-                <div class="sh">${sh}</div>
-                <div class="stat"><b>${guests}</b><span>Khách</span></div>
-                <div class="sep"></div>
-                <div class="stat"><b>${empty}</b><span>Trống</span></div>
-                <div class="sep"></div>
-                <div class="stat"><b>${pct(guests, capacity)}</b><span>Lấp đầy</span></div>
-              </div>`;
-            })
-            .join("");
-          return `
-            <div class="kpi-ship">
-              <span class="ship-badge ${ship.toLowerCase()}">${ship}</span>
-              ${shifts}
-            </div>`;
-        })
+    function renderThreads(el, ship, dept) {
+      const list = channelPosts(ship, dept).slice(0, postsLimit());
+      if (!list.length) {
+        el.innerHTML = `<div class="empty">Chưa có báo cáo</div>`;
+        return;
+      }
+      el.innerHTML = list
+        .map(
+          (p) => `
+        <button type="button" class="post ${p.urgent ? "urgent" : ""}" data-open="${p.id}">
+          <div class="post-title">
+            ${p.urgent ? '<span class="badge">Gấp</span>' : ""}
+            <span>${escapeHtml(p.title)}</span>
+          </div>
+          <div class="post-meta">${escapeHtml(p.author)} · ${p.time} · ${p.replies.length} phản hồi</div>
+        </button>`
+        )
         .join("");
     }
 
@@ -910,50 +845,103 @@
       const list = document.getElementById("urgentList");
       const urgents = posts.filter((p) => p.urgent);
       if (!urgents.length) {
-        list.innerHTML = `<div class="urgent-empty">Không có việc gấp lúc này</div>`;
+        list.innerHTML = `<div class="urgent-empty">Không có việc gấp</div>`;
         return;
       }
       list.innerHTML = urgents
         .map(
           (p) => `
         <button type="button" class="urgent-chip" data-open="${p.id}">
-          ${escapeHtml(p.ship)} · ${DEPT_LABEL[p.dept]}: ${escapeHtml(p.title)}
+          ${escapeHtml(shipName(p.ship))} · ${escapeHtml(deptLabel(p.dept))}: ${escapeHtml(p.title)}
           <span class="who">${escapeHtml(p.author)} · ${p.time}</span>
         </button>`
         )
         .join("");
     }
 
-    function renderChannels() {
-      const limit = postsLimit();
-      ["Queen", "Star"].forEach((ship) => {
-        ["kitchen", "floor", "crew"].forEach((dept) => {
-          const box = document.getElementById(`ch-${ship}-${dept}`);
-          const list = sortedChannel(ship, dept).slice(0, limit);
-          if (!list.length) {
-            box.innerHTML = `<div class="empty">Chưa có báo cáo</div>`;
-            return;
-          }
-          box.innerHTML = list
-            .map(
-              (p) => `
-            <button type="button" class="post ${p.urgent ? "urgent" : ""}" data-open="${p.id}">
-              <div class="post-title">
-                ${p.urgent ? '<span class="badge">Gấp</span>' : ""}
-                <span>${escapeHtml(p.title)}</span>
-              </div>
-              <div class="post-meta">${escapeHtml(p.author)} · ${p.time} · ${p.replies.length} phản hồi</div>
-            </button>`
-            )
-            .join("");
+    function renderShips() {
+      const root = document.getElementById("shipsStack");
+      root.innerHTML = SHIPS.map((ship) => {
+        const zones = (occupancy[ship.id] || {});
+        const zoneRows = ship.zones
+          .map((z) => {
+            const o = zones[z] || { guests: 0, capacity: 0 };
+            const empty = Math.max(0, o.capacity - o.guests);
+            return `
+              <div class="zone-row">
+                <div class="zone-name">${escapeHtml(z)}</div>
+                <div class="zone-stat"><b>${o.guests}</b><span>Khách</span></div>
+                <div class="zone-stat"><b>${empty}</b><span>Trống</span></div>
+                <div class="zone-stat"><b>${pct(o.guests, o.capacity)}</b><span>Lấp đầy</span></div>
+              </div>`;
+          })
+          .join("");
+
+        const depts = DEPARTMENTS.map(
+          (d) => `
+          <div class="channel-block">
+            <div class="channel-head">
+              <span class="channel-tag ${d.className}">${d.label}</span>
+              <button type="button" data-compose="${ship.id}|${d.id}">+ Gửi</button>
+            </div>
+            <div class="threads" id="ch-${ship.id}-${d.id}"></div>
+          </div>`
+        ).join("");
+
+        return `
+          <article class="ship ${ship.openDefault ? "open" : ""}" id="ship-${ship.id}">
+            <div class="ship-head ${ship.theme}" data-toggle="ship-${ship.id}">
+              <h2>
+                <span class="ship-badge ${ship.theme}">${escapeHtml(ship.name)}</span>
+                <span style="font-size:0.78rem;font-weight:600;color:var(--muted)">${ship.zones.length} khu</span>
+              </h2>
+              <button type="button" class="toggle-btn" data-toggle-btn="ship-${ship.id}">
+                ${ship.openDefault ? "Ẩn" : "Hiện"}
+              </button>
+            </div>
+            <div class="ship-body">
+              <div class="zones">${zoneRows}</div>
+              <div class="dept-grid">${depts}</div>
+            </div>
+          </article>`;
+      }).join("");
+
+      // fill threads after DOM exists
+      SHIPS.forEach((ship) => {
+        DEPARTMENTS.forEach((d) => {
+          const el = document.getElementById(`ch-${ship.id}-${d.id}`);
+          if (el) renderThreads(el, ship.id, d.id);
         });
       });
     }
 
+    function renderOffice() {
+      renderThreads(document.getElementById("ch-office-office"), "office", "office");
+    }
+
     function renderAll() {
-      renderKpi();
       renderUrgent();
-      renderChannels();
+      renderOffice();
+      renderShips();
+      syncToggleLabels();
+    }
+
+    function setOpen(id, open) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle("open", open);
+      syncToggleLabels();
+    }
+
+    function syncToggleLabels() {
+      document.querySelectorAll("[data-toggle-btn]").forEach((btn) => {
+        const id = btn.getAttribute("data-toggle-btn");
+        const open = document.getElementById(id)?.classList.contains("open");
+        btn.textContent = open ? "Ẩn" : "Hiện";
+      });
+      const officeOpen = document.getElementById("officeBlock")?.classList.contains("open");
+      const ot = document.getElementById("officeToggle");
+      if (ot) ot.textContent = officeOpen ? "Ẩn" : "Hiện";
     }
 
     function stampSync() {
@@ -985,7 +973,7 @@
       activePostId = id;
       document.getElementById("threadTitle").textContent = p.title;
       document.getElementById("threadSub").textContent =
-        `${p.ship} · ${DEPT_LABEL[p.dept]} · ${p.author} · ${p.time}` +
+        `${shipName(p.ship)} · ${deptLabel(p.dept)} · ${p.author} · ${p.time}` +
         (p.urgent ? " · GẤP" : "");
       document.getElementById("threadReplies").innerHTML = `
         <div class="bubble op">
@@ -1007,7 +995,7 @@
 
     function openCompose(ship, dept) {
       composeTarget = { ship, dept };
-      document.getElementById("composeSub").textContent = `${ship} · ${DEPT_LABEL[dept]}`;
+      document.getElementById("composeSub").textContent = `${shipName(ship)} · ${deptLabel(dept)}`;
       document.getElementById("composeTitle").value = "";
       document.getElementById("composeBody").value = "";
       document.getElementById("composeUrgent").checked = false;
@@ -1024,13 +1012,17 @@
     function setTvMode(on, persist) {
       document.body.classList.toggle("tv", on);
       document.getElementById("btnTv").textContent = on ? "Thoát chế độ Tivi" : "Chế độ Tivi";
+      if (on) {
+        // TV: mở Queen+Star, thu Pearl+Jade
+        SHIPS.forEach((s) => setOpen(`ship-${s.id}`, !!s.openDefault));
+      }
       if (persist) {
         const url = new URL(location.href);
         if (on) url.searchParams.set("tv", "1");
         else url.searchParams.delete("tv");
         history.replaceState(null, "", url);
       }
-      renderChannels();
+      renderAll();
     }
 
     function shouldAutoTv() {
@@ -1041,13 +1033,13 @@
     }
 
     document.getElementById("btnRefresh").addEventListener("click", () => {
-      Object.keys(occupancy).forEach((ship) => {
-        ["T1", "T2"].forEach((shift) => {
-          const o = occupancy[ship][shift];
+      Object.keys(occupancy).forEach((shipId) => {
+        Object.keys(occupancy[shipId]).forEach((z) => {
+          const o = occupancy[shipId][z];
           o.guests = Math.max(0, Math.min(o.capacity, o.guests + Math.floor(Math.random() * 7) - 3));
         });
       });
-      renderKpi();
+      renderShips();
       stampSync();
     });
 
@@ -1055,7 +1047,28 @@
       setTvMode(!document.body.classList.contains("tv"), true);
     });
 
+    document.getElementById("btnExpandAll").addEventListener("click", () => {
+      setOpen("officeBlock", true);
+      SHIPS.forEach((s) => setOpen(`ship-${s.id}`, true));
+    });
+
+    document.getElementById("btnCollapseAll").addEventListener("click", () => {
+      setOpen("officeBlock", false);
+      SHIPS.forEach((s) => setOpen(`ship-${s.id}`, false));
+    });
+
     document.addEventListener("click", (e) => {
+      const toggle = e.target.closest("[data-toggle]");
+      if (toggle && !e.target.closest("[data-compose],[data-open]")) {
+        // ignore if clicking compose inside — but toggle is on head only
+        const id = toggle.getAttribute("data-toggle");
+        const el = document.getElementById(id);
+        if (el && (e.target.closest(".office-head") || e.target.closest(".ship-head") || e.target.closest(".toggle-btn"))) {
+          el.classList.toggle("open");
+          syncToggleLabels();
+        }
+      }
+
       const open = e.target.closest("[data-open]");
       if (open) openThread(open.getAttribute("data-open"));
 
@@ -1121,14 +1134,6 @@
     stampSync();
     tickClock();
     setInterval(tickClock, 1000);
-
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (!new URLSearchParams(location.search).has("tv")) setTvMode(shouldAutoTv(), false);
-      }, 200);
-    });
   </script>
 </body>
 </html>
